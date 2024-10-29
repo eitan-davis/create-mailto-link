@@ -43,7 +43,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    //MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,
                     //'style-loader',
                     'css-loader'
                 ]
@@ -57,10 +57,15 @@ module.exports = {
             minify: true,
             //inlineSource: '.(js|css)$'
         }),
-        new PurgeCSSPlugin({
-            paths: glob.sync(`${path.resolve(__dirname, 'source')}/**/*`, { nodir: true }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: '[id].css',
+            //minify: true,
         }),
-        //new HtmlInlineCssWebpackPlugin(),
+        new PurgeCSSPlugin({
+            paths: glob.sync(`${path.resolve(__dirname, './source')}/**/*`, { nodir: true }),
+        }),
+        new HtmlInlineCssWebpackPlugin(),
         //new HtmlWebpackInlineSourcePlugin()
     ]
 };
