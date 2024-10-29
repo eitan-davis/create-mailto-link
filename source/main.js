@@ -41,26 +41,25 @@ function createTheMailtoLink(list_address, subject, list_cc, list_bcc, text_body
     let address = "";
     if (Boolean(list_address)){
         address = ensureArray(list_address).
-        filter((value, index, array)=>{ validateEmail(value)}).
+        filter((value, index, array)=>{ return validateEmail(value);}).
         join(sep);
     }
     /**
      * @type {URL}
      */
     let link = new URL("mailto:" + address);
-
     if (Boolean(subject)) {
         link.searchParams.append("subject", subject);
     }
-    if(Boolean(list_cc)){
-        link.searchParams.append("cc", ensureArray(list_cc).filter((value, index, array)=>{
-            if (validateEmail(value)) {
-                    
-            }
-        }).join(sep));
+    if(Boolean(list_cc) && list_cc.length > 0){
+        link.searchParams.append("cc", ensureArray(list_cc).
+        filter((value, index, array)=>{ return validateEmail(value);}).
+        join(sep));
     }
-    if(Boolean(list_bcc)){
-        link.searchParams.append("bcc", ensureArray(list_bcc).join(sep));
+    if(Boolean(list_bcc) && list_bcc.length > 0){
+        link.searchParams.append("bcc", ensureArray(list_bcc).
+        filter((value, index, array)=>{ return validateEmail(value);}).
+        join(sep));
     }
     if(Boolean(text_body)){
         link.searchParams.append("body", text_body);
