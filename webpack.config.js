@@ -5,7 +5,9 @@ const Webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-
+const glob = require('glob');
+const {PurgeCSSPlugin} = require('purgecss-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const path_to_file = './source/index.html'; 
 
@@ -41,7 +43,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
+                    //MiniCssExtractPlugin.loader,
+                    //'style-loader',
                     'css-loader'
                 ]
             }
@@ -51,9 +54,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path_to_file,
             inject: 'body',
-            inlineSource: '.(js|css)$'
+            minify: true,
+            //inlineSource: '.(js|css)$'
         }),
-        new HtmlInlineCssWebpackPlugin(),
-        new HtmlWebpackInlineSourcePlugin()
+        new PurgeCSSPlugin({
+            paths: glob.sync(`${path.resolve(__dirname, 'source')}/**/*`, { nodir: true }),
+        }),
+        //new HtmlInlineCssWebpackPlugin(),
+        //new HtmlWebpackInlineSourcePlugin()
     ]
 };
