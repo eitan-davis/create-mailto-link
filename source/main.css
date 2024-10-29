@@ -1,0 +1,43 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 20px;
+}
+@media screen {
+    .main{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+
+.textarea_big{
+    /*width: max(50%, 600px);*/
+    width: 100%;
+}
+
+.section{
+    padding-top: 20px;
+}
+.small_header{
+    color: rgb(0, 17, 30);
+}
+
+.field_input{
+    vertical-align: middle; /* Align input and button */
+}
+
+.field_input:valid{
+    /* border-color: rgb(0, 0, 85); */
+}
+.field_input:invalid{
+    border-color: rgb(165, 42, 42);
+}

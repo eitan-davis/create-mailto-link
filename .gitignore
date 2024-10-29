@@ -1,0 +1,24 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+
+# Build output
+dist/
+
+# Environment configuration
+.env
+.env.local
+
+#export
+export/
+
+#more stuff we save like boot strap
+more/
+
+#other stuff
+else/

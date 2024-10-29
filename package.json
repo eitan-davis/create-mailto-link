@@ -1,0 +1,36 @@
+{
+  "name": "create-mailto-link",
+  "version": "1.0.0",
+  "description": "This is a simple web page that creates the mailto lines given the information.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eitan-davis/create-mailto-link.git"
+  },
+  "keywords": [
+    "mailto",
+    "link"
+  ],
+  "author": "eitan davis",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/eitan-davis/create-mailto-link/issues"
+  },
+  "homepage": "https://github.com/eitan-davis/create-mailto-link#readme",
+  "devDependencies": {
+    "clean-css": "^5.3.3",
+    "css-loader": "^7.1.2",
+    "html-inline-css-webpack-plugin": "^1.11.2",
+    "html-inline-script-webpack-plugin": "^3.2.1",
+    "html-loader": "^5.1.0",
+    "html-webpack-inline-source-plugin": "^0.0.10",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "yargs": "^17.7.2"
+  }
+}

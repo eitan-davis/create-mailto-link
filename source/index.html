@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Create Mailto Link</title>
+    <link rel='stylesheet' type='text/css' href="./bootstrap.min.css" />
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css' />
+    <script src='./main.js' type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="mainapp" v-scope="" class="main">
+        <header>
+            <div style="padding: 20px;">
+                <h1 class="bs-alert">
+                    <div>
+                        Create mailto link
+                    </div>
+                </h1>
+            </div>
+        </header>
+        <nav></nav>
+        <article>
+            <div>
+                <div v-for="(key, key_index) in ['address', 'cc', 'bcc']" :key="key_index">
+                    <div class="section">
+                        <div>
+                            <h2 class="small_header">
+                                {{email_form_item[key].field_name}}
+                            </h2>
+                        </div>
+                        <div v-for="(v,i) in email_form_item[key].list" style="margin-bottom: 10px;">
+                            <input type="email" v-model="v.value" class="field_input"
+                                :placeholder="[[ email_form_item[key].placeholder ]]" @input="" />
+                            <button @click="email_form_item[key].list.splice(i, 1);" class="btn btn-outline-secondary">
+                                x
+                            </button>
+                        </div>
+                        <button @click="email_form_item[key].list.push({value:''});" class="btn btn-outline-primary">
+                            add
+                        </button>
+                        <button @click="email_form_item[key].list = [{value:''}];" class="btn btn-outline-danger">
+                            clear
+                        </button>
+                    </div>
+                </div>
+                <!-- <div id="field_email" class="section">
+                    <div>
+                        <h2 class="small_header">
+                            Email address:
+                        </h2>
+                    </div>
+                    <div v-for="(v,i) in (email_form_item.address.list)" :key="i" style="margin-bottom: 10px;">
+
+                        <input type="email" v-model="v.value" value="" placeholder="email" @input="" />
+                        <button type="button" class="btn btn-outline-secondary"
+                            @click="email_form_item.address.list.splice(i, 1);">X</button>
+
+                    </div>
+
+                    <button @click="email_form_item.address.list.push({value:''})" class="btn btn-outline-primary">
+                        add
+                    </button>
+                    <button @click="email_form_item.address.list = [{value:''}];" class="btn btn-outline-danger">
+                        clear
+                    </button>
+                </div>
+                <div id="field_cc" class="section">
+                    <div>
+                        <h2 class="small_header">
+                            cc:
+                        </h2>
+                    </div>
+                </div>
+                <div id="field_bcc" class="section">
+                    <div>
+                        <h2 class="small_header">
+                            bcc:
+                        </h2>
+                    </div>
+                </div>
+                -->
+                <div class="section">
+                    <div>
+                        <h2 class="small_header">
+                            {{email_form_item['subject'].field_name}}
+                        </h2>
+                    </div>
+                    <input type="text" id="subject" name="subject" placeholder="subject"
+                        v-model="email_form_item.subject.value" @input="" />
+                </div>
+
+                <div class="section">
+                    <div>
+                        <h2 class="small_header">
+                            {{email_form_item['body'].field_name}}
+                        </h2>
+                    </div>
+                    <textarea id="email_text" v-model="email_form_item.body.value" @input="" placeholder="text"
+                        class="textarea_big form-control" aria-label="body">
+
+                    </textarea>
+                </div> 
+                
+                <div>
+                    <!--
+                    output here
+                    -->
+                    <button @click="create_link()">Get link</button>
+                    <input type="checkbox" value="autocreate" />
+                    <br />
+                    <div>
+                        <a :href="[[output_value]]">
+                            {{output_value}}
+                        </a>
+                        <span @click="">copy</span>
+                    </div>
+
+                </div>
+            </div>
+        </article>
+    </div>
+    <script>
+        function resolveRefernce(context, refernce) {
+            if (!refernce) {
+                return context;
+            }
+            if (Array.isArray(refernce)) {
+                switch (refernce.length) {
+                    case 0:
+                        return context;
+                        break;
+                    case 1:
+                        return context[refernce[0]];
+                        break;
+                    default:
+                        let result = context;
+                        for (let index = 0; index < refernce.length; index++) {
+                            const element = refernce[index];
+                            result = result[element];
+                        }
+                        return result;
+                        break;
+                }
+            } else {
+                return context[refernce]
+            }
+        }
+    </script>
+    <script type="module">
+        import { createApp } from './petite-vue.es.js';
+
+        let app = createApp({
+            email_form_item: {
+                address: {
+                    field_name: "email address",
+                    placeholder: "email",
+                    list: [{value:""}]
+                },
+                cc: {
+                    field_name: "cc",
+                    placeholder: "email cc",
+                    list: []
+                },
+                bcc: {
+                    field_name: "bcc",
+                    placeholder: "email bcc",
+                    list: []
+                },
+                subject: {
+                    field_name: "subject",
+                    placeholder: "subject",
+                    value: ""
+                },
+                body: {
+                    field_name: "body",
+                    placeholder: "text",
+                    value: "",
+                },
+            },
+            output_value: "",
+            create_link() {
+                this.output_value = createTheMailtoLink(
+                this.email_form_item.address.list.map((value,index,array)=>{return value.value;}),
+                this.email_form_item.subject.value,
+                this.email_form_item.cc.list.map((value,index,array)=>{return value.value;}),
+                this.email_form_item.bcc.list.map((value,index,array)=>{return value.value;}),
+                this.email_form_item.body.value).
+                toString();
+            },
+        }).mount("#mainapp");
+    </script>
+</body>
+
+</html>
