@@ -101,7 +101,6 @@
                     </div>
                     <textarea id="email_text" v-model="email_form_item.body.value" @input="" placeholder="text"
                         class="textarea_big form-control" aria-label="body">
-
                     </textarea>
                 </div> 
                 
@@ -116,7 +115,9 @@
                         <a :href="[[output_value]]">
                             {{output_value}}
                         </a>
-                        <span @click="">copy</span>
+                        <span @click="">
+                            copy
+                        </span>
                     </div>
 
                 </div>
