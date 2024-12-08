@@ -24,7 +24,7 @@
         </header>
         <nav></nav>
         <article>
-            <div>
+            <div v-scope="">
                 <div v-for="(key, key_index) in ['address', 'cc', 'bcc']" :key="key_index">
                     <div class="section">
                         <div>
@@ -34,7 +34,8 @@
                         </div>
                         <div v-for="(v,i) in email_form_item[key].list" style="margin-bottom: 10px;">
                             <input type="email" v-model="v.value" class="field_input"
-                                :placeholder="[[ email_form_item[key].placeholder ]]" @input="" />
+                                :placeholder="[[ email_form_item[key].placeholder ]]" @input="" 
+                                v-effect="create_link()"/>
                             <button @click="email_form_item[key].list.splice(i, 1);" class="btn btn-outline-secondary">
                                 x
                             </button>
@@ -90,7 +91,7 @@
                         </h2>
                     </div>
                     <input type="text" id="subject" name="subject" placeholder="subject"
-                        v-model="email_form_item.subject.value" @input="" />
+                        v-model="email_form_item.subject.value" @input="" v-effect="create_link()"/>
                 </div>
 
                 <div class="section">
@@ -100,7 +101,7 @@
                         </h2>
                     </div>
                     <textarea id="email_text" v-model="email_form_item.body.value" @input="" placeholder="text"
-                        class="textarea_big form-control" aria-label="body">
+                        class="textarea_big form-control" aria-label="body" v-effect="create_link()">
                     </textarea>
                 </div> 
                 
@@ -108,14 +109,14 @@
                     <!--
                     output here
                     -->
-                    <button @click="create_link()" class="btn btn-primary">Get link</button>
-                    <input type="checkbox" value="autocreate" />
-                    <br />
+                    <!-- <button @click="create_link()" class="btn btn-primary">Get link</button>
+                    <input type="checkbox" value="autocreate"  />
+                    <br /> -->
                     <div>
                         <a :href="[[output_value]]">
                             {{output_value}}
                         </a>
-                        <span @click="">
+                        <span class="btn btn-secondary" @click="copy_email()">
                             copy
                         </span>
                     </div>
